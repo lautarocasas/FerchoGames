@@ -1,0 +1,41 @@
+.container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en nuevas filas si no hay espacio */
+    gap: 20px; /* Añade espacio entre los elementos */
+    background-color: darkgrey;
+}
+
+header {
+    font-family: 'Anton', sans-serif;
+}
+
+.videojuego {
+    border: 10px groove rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 200px; /* Establece un ancho fijo para los artículos */
+    box-sizing: border-box; /* Asegura que el padding y el border estén incluidos en el width */
+    align-items: center;
+    text-align: center;
+    border-radius: 5px; /* (Opcional) Añade bordes redondeados a las imágenes */
+
+}
+
+.videojuego h3 {
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    overflow: hidden; /* Oculta el texto que no cabe en el contenedor */
+    text-overflow: ellipsis; /* Añade puntos suspensivos al final si el texto es demasiado largo */
+    max-width: 100%; /* Asegura que el texto ocupe todo el ancho disponible */
+    margin: 5px;
+    font-family: 'Anton', sans-serif;
+}
+
+img {
+    width: 160px; /* Hace que la imagen ocupe todo el ancho del contenedor */
+    height: 200px; /* Establece una altura fija */
+    object-fit: cover; /* Recorta la imagen para llenar el contenedor sin deformarse */
+    border: 2px solid black;
+}
+
