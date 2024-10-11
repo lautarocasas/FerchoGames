@@ -1,8 +1,51 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    overflow: visible;
+}
+
+/* Estilos de la barra de navegación */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000000; /* Color de fondo oscuro para la barra */
+    padding: 24px;
+    position: sticky; /* Fija la barra en la parte superior al hacer scroll */
+    top: 0;
+    width: 100%; /* Asegura que ocupe todo el ancho de la página */
+    z-index: 1000; /* Asegura que la barra siempre esté encima de otros elementos */
+}
+
+nav li {
+    display: inline;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 20px;
+    font-size: 16px;
+}
+
+nav a:hover {
+    background-color: #555;
+}
+
+.navbar-left .brand {
+    font-size: 30px; /* Aumenta el tamaño de la fuente del nombre de la marca */
+}
+
 .container {
     display: flex;
-    flex-wrap: wrap; /* Permite que los elementos se envuelvan en nuevas filas si no hay espacio */
-    gap: 20px; /* Añade espacio entre los elementos */
-    background-color: darkgrey;
+    flex-wrap: wrap; /* Permite que los videojuegos se ajusten en filas */
+    gap: 20px; /* Añade espacio entre los videojuegos */
+    padding: 20px; /* Añade espacio alrededor del contenedor principal */
+    margin-top: 10px; /* Añade espacio entre la barra de navegación y los videojuegos */
 }
 
 header {
@@ -19,8 +62,8 @@ header {
     box-sizing: border-box; /* Asegura que el padding y el border estén incluidos en el width */
     align-items: center;
     text-align: center;
-    border-radius: 5px; /* (Opcional) Añade bordes redondeados a las imágenes */
-
+    width: 260px; /* Aumenta el ancho del contenedor */
+    height: 350px; /* Aumenta la altura del contenedor si es necesario */
 }
 
 .videojuego h3 {
@@ -29,7 +72,12 @@ header {
     text-overflow: ellipsis; /* Añade puntos suspensivos al final si el texto es demasiado largo */
     max-width: 100%; /* Asegura que el texto ocupe todo el ancho disponible */
     margin: 5px;
-    font-family: 'Anton', sans-serif;
+    font-family: "Raleway", sans-serif;
+}
+
+.videojuego h4 {
+    font-family: "Raleway", sans-serif;
+    margin: 5px;
 }
 
 img {
@@ -39,3 +87,18 @@ img {
     border: 2px solid black;
 }
 
+
+/* Botón de agregar al carrito */
+.videojuego button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.videojuego button:hover {
+    background-color: #555; /* Color de fondo al pasar el cursor */
+}
