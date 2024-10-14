@@ -37,7 +37,13 @@ nav a:hover {
 }
 
 .navbar-left .brand {
+    font-family: 'Anton', sans-serif;
     font-size: 30px; /* Aumenta el tamaño de la fuente del nombre de la marca */
+}
+
+.navbar-right {
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
 }
 
 .container {
@@ -46,12 +52,11 @@ nav a:hover {
     gap: 20px; /* Añade espacio entre los videojuegos */
     padding: 20px; /* Añade espacio alrededor del contenedor principal */
     margin-top: 10px; /* Añade espacio entre la barra de navegación y los videojuegos */
+    justify-content: center;
 }
 
-header {
-    font-family: 'Anton', sans-serif;
-}
 
+/* Estilos de portadas de videojuego */
 .videojuego {
     border: 10px groove rgb(0, 0, 0);
     background-color: rgb(255, 255, 255);
@@ -80,15 +85,13 @@ header {
     margin: 5px;
 }
 
-img {
+.videojuego img {
     width: 160px; /* Hace que la imagen ocupe todo el ancho del contenedor */
     height: 200px; /* Establece una altura fija */
     object-fit: cover; /* Recorta la imagen para llenar el contenedor sin deformarse */
     border: 2px solid black;
 }
 
-
-/* Botón de agregar al carrito */
 .videojuego button {
     background-color: #333;
     color: white;
@@ -101,4 +104,18 @@ img {
 
 .videojuego button:hover {
     background-color: #555; /* Color de fondo al pasar el cursor */
+}
+
+#quienes-somos{
+    text-align: center;
+}
+
+#contacto{
+    text-align: center;
+}
+
+#contacto img {
+    width: 64px;
+    height:64px;
+    margin: 8px;
 }
