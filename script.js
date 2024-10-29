@@ -32,7 +32,7 @@ while(continuarCompra)
     {
         productosAComprar.push(listaProductos[indJuegoAComprar]);
         totalCompra+= listaProductos[indJuegoAComprar].precio;
-        continuarCompra = confirm("¡Juego añadido al carrito! ¿Continuar compra?");
+        continuarCompra = confirm("¡Juego añadido al carrito! ¿Desea seguir agregando juegos al carrito?");
     }
     else
     {
