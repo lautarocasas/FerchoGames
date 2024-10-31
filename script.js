@@ -14,61 +14,78 @@ const listaVideojuegos = [  {nombre:"Monkey Island 4",precio:800},
                             {nombre:"Resident Evil 3",precio:46000}
 ];
 
-const listaNombreVideojuegos = [];
+let listaNombreVideojuegos = [];
 
 for(let i = 0;i<listaVideojuegos.length;i++)
 {
-    listaNombreVideojuegos.push('\n'+listaVideojuegos[i].nombre +' - Precio: '+listaVideojuegos[i].precio);
-}
-
-function buscarVideojuego(nombreJuego)
-{
-    for(let i=0;i<listaVideojuegos.length;i++)
-    {
-        if(listaVideojuegos[i].nombre == nombreJuego)
-            return i;
-    }
-    return -1;
+    listaNombreVideojuegos.push('\n'+listaVideojuegos[i].nombre +' - '+listaVideojuegos[i].precio);
 }
 
 
+let continuarOperando = true;
 let carrito = [];
 
-while(true)
+function calcularTotalCarrito()
 {
-    let opcionSeleccionada = Number(prompt("Ingrese el numero de la operacion que desee realizar:\n1) Agregar al carrito\n2) Ver catalogo\n3) Realizar pago"));
+    let total=0;
+    for(let i = 0;i<carrito.length;i++)
+        total+=carrito[i].precio;
+    return total;
+}
+
+while(continuarOperando)
+{
+    let opcionSeleccionada = Number(prompt("Ingrese el numero de la operacion que desee realizar:\n1) Ver catalogo\n2) Agregar al carrito\n3) Ver costo del carrito\n4) Realizar pago\n5) Salir del menu"));
     let continuarCompra = true;
     switch(opcionSeleccionada)
     {
         case 1:
+            alert(listaNombreVideojuegos);
+            break;
+        case 2:
             while(continuarCompra)
             {
                 let juegoSeleccionado = prompt("Ingrese el nombre del videojuego que desee agregar al carrito: ");
-                let indJuego = buscarVideojuego(juegoSeleccionado);
-                if(indJuego !== -1)
+                if(juegoSeleccionado === null)      //El usuario cancelo la entrada de datos
+                    break;
+                let juegoAComprar = listaVideojuegos.find(videojuego => videojuego.nombre == juegoSeleccionado);
+                if(juegoAComprar !== undefined) //En caso de que exista el juego, se agrega al carrito
                 {
-                    carrito.push(listaVideojuegos[indJuego]);
+                    carrito.push(juegoAComprar);
                     continuarCompra = confirm("¡Juego agregado exitosamente! ¿Desea seguir agregando juegos al carrito?");
                 }
                 else
                     continuarCompra = confirm("Lamentablemente, no disponemos de dicho titulo en el catalogo. ¿Desea seguir agregando juegos al carrito?");                
             }
             break;
-        case 2:
-            alert(listaNombreVideojuegos);
-            break;
         case 3:
+            let juegosEnCarrito="";
+            for(let i = 0;i<carrito.length;i++)
+                juegosEnCarrito+=carrito[i].nombre+" - $"+carrito[i].precio+"\n";
+
+            let totalAPagar = calcularTotalCarrito();
+            alert("Juegos en el carrito:\n"+juegosEnCarrito+"\nEl monto total es de: $"+totalAPagar);
+            break;
+        case 4:
             if(carrito.length !== 0)
-            {
-                let totalAPagar;
-                for(let i = 0;i<carrito.length;i++)
-                    totalAPagar+=carrito[i].precio;
+            {          
+                let totalAPagar = calcularTotalCarrito();      
                 let confirmacionCompra = confirm("El total a pagar es de: "+totalAPagar+"\n¿Proceder al pago?");
                 if(confirmacionCompra)
+                {
                     alert("¡Pago realizado! Muchas gracias por comprar.");
+                    continuarOperando = false;
+                }                    
+                break;
             }
             else
-                alert("No hay videojuegos en el carrito, agregue juegos usando la opcion (1) del menu anterior")
+                alert("No hay videojuegos en el carrito, agregue juegos usando la opcion (2) del menu anterior")
+            break;
+        case 5:
+            continuarOperando = !confirm("¿Esta seguro que desea salir? (Una vez cerrado el menu, no podra volver a el)");
+            break;
+        default:
+            alert("La opcion ingresada no es valida, por favor, ingrese una operacion valida.");
             break;
     }
 }
