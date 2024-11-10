@@ -14,25 +14,21 @@ const listaVideojuegos = [  {nombre:"Monkey Island 4",precio:800},
                             {nombre:"Resident Evil 3",precio:46000}
 ];
 
-let listaNombreVideojuegos = [];
 
-for(let i = 0;i<listaVideojuegos.length;i++)
+function listarVideojuegos(listadoActual,videojuego)
 {
-    listaNombreVideojuegos.push('\n'+listaVideojuegos[i].nombre +' - '+listaVideojuegos[i].precio);
+    return listadoActual+videojuego.nombre+' - $'+videojuego.precio+'\n';
 }
 
+const listaNombreVideojuegos = listaVideojuegos.reduce(listarVideojuegos,"Nombre - Precio\n");
 
-let continuarOperando = true;
 let carrito = [];
-
 function calcularTotalCarrito()
 {
-    let total=0;
-    for(let i = 0;i<carrito.length;i++)
-        total+=carrito[i].precio;
-    return total;
+    return carrito.reduce(function(costoTotal,videojuego){return costoTotal+videojuego.precio},0);
 }
 
+let continuarOperando = true;
 while(continuarOperando)
 {
     let opcionSeleccionada = Number(prompt("Ingrese el numero de la operacion que desee realizar:\n1) Ver catalogo\n2) Agregar al carrito\n3) Ver costo del carrito\n4) Realizar pago\n5) Salir del menu"));
@@ -59,9 +55,7 @@ while(continuarOperando)
             }
             break;
         case 3:
-            let juegosEnCarrito="";
-            for(let i = 0;i<carrito.length;i++)
-                juegosEnCarrito+=carrito[i].nombre+" - $"+carrito[i].precio+"\n";
+            let juegosEnCarrito= carrito.reduce(listarVideojuegos,"Nombre - Precio\n");
 
             let totalAPagar = calcularTotalCarrito();
             alert("Juegos en el carrito:\n"+juegosEnCarrito+"\nEl monto total es de: $"+totalAPagar);
