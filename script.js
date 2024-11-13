@@ -15,6 +15,43 @@ const listaVideojuegos = [  {nombre:"Monkey Island 4",precio:800},
 ];
 
 
+class Producto
+{
+    nombre;
+    precio;
+
+    constructor(nombre,precio)
+    {
+        this.nombre = nombre;
+        this.precio = precio;
+    }
+}
+
+const listaObjetosVideojuegos = listaVideojuegos.map((juego)=>{return new Producto(juego.nombre,juego.precio)})
+
+class Carrito
+{
+    productos = [];
+    constructor(){}
+
+    agregarProducto(producto)
+    {
+        this.productos.push(producto);
+    }
+
+    calcularTotal()
+    {
+        let total = this.productos.reduce((costoTotal,producto)=>{return costoTotal+producto.precio},0);
+        return total;
+    }
+
+    mostrarProductos()
+    {
+        return this.productos.reduce(listarVideojuegos,"Nombre - Precio\n");
+    }
+}
+
+
 function listarVideojuegos(listadoActual,videojuego)
 {
     return listadoActual+videojuego.nombre+' - $'+videojuego.precio+'\n';
@@ -22,12 +59,7 @@ function listarVideojuegos(listadoActual,videojuego)
 
 const listaNombreVideojuegos = listaVideojuegos.reduce(listarVideojuegos,"Nombre - Precio\n");
 
-let carrito = [];
-function calcularTotalCarrito()
-{
-    return carrito.reduce(function(costoTotal,videojuego){return costoTotal+videojuego.precio},0);
-}
-
+let carrito = new Carrito();
 let continuarOperando = true;
 while(continuarOperando)
 {
@@ -47,7 +79,7 @@ while(continuarOperando)
                 let juegoAComprar = listaVideojuegos.find(videojuego => videojuego.nombre == juegoSeleccionado);
                 if(juegoAComprar !== undefined) //En caso de que exista el juego, se agrega al carrito
                 {
-                    carrito.push(juegoAComprar);
+                    carrito.agregarProducto(juegoAComprar);
                     continuarCompra = confirm("¡Juego agregado exitosamente! ¿Desea seguir agregando juegos al carrito?");
                 }
                 else
@@ -55,15 +87,14 @@ while(continuarOperando)
             }
             break;
         case 3:
-            let juegosEnCarrito= carrito.reduce(listarVideojuegos,"Nombre - Precio\n");
-
-            let totalAPagar = calcularTotalCarrito();
+            let juegosEnCarrito = carrito.mostrarProductos();
+            let totalAPagar = carrito.calcularTotal();
             alert("Juegos en el carrito:\n"+juegosEnCarrito+"\nEl monto total es de: $"+totalAPagar);
             break;
         case 4:
-            if(carrito.length !== 0)
-            {          
-                let totalAPagar = calcularTotalCarrito();      
+            if(carrito.productos.length !== 0)
+            {       
+                let totalAPagar = carrito.calcularTotal();
                 let confirmacionCompra = confirm("El total a pagar es de: "+totalAPagar+"\n¿Proceder al pago?");
                 if(confirmacionCompra)
                 {
