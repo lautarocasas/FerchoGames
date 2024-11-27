@@ -46,7 +46,7 @@ nav a:hover {
     font-weight: bold;
 }
 
-.container {
+#container-videojuegos {
     display: flex;
     flex-wrap: wrap; /* Permite que los videojuegos se ajusten en filas */
     gap: 20px; /* Añade espacio entre los videojuegos */
