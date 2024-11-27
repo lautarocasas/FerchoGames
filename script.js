@@ -34,6 +34,8 @@ class Producto
         div.className = 'videojuego';
         div.innerHTML = `<h3>${this.nombre}</h3> <img src = ${this.imgPath} alt = "Imagen de ${this.nombre}"> <h4>$${this.precio}ARS</h4> <button>Agregar al carrito</button>`;
 
+        let botonCompra = div.querySelector('button');
+        botonCompra.addEventListener('click',()=>{carrito.agregarProducto(this);});
         return div;
     }
 }
@@ -62,10 +64,7 @@ class Carrito
     }
 }
 
-
 let carrito = new Carrito();
-let continuarOperando = true;
 
 let contenedorVideojuegos = document.getElementById('container-videojuegos');
-
 listaObjetosVideojuegos.forEach((elem)=>{contenedorVideojuegos.appendChild(elem.generarDiv())});

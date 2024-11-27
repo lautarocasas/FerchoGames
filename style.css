@@ -106,6 +106,44 @@ nav a:hover {
     background-color: #555; /* Color de fondo al pasar el cursor */
 }
 
+#ver-carrito {
+    position: fixed;
+    bottom: 20px; /* Distancia desde el borde inferior */
+    right: 20px; /* Distancia desde el borde derecho */
+    background-color: transparent; /* Fondo transparente para que se vea solo la imagen */
+    border: none; /* Sin bordes */
+    padding: 0;
+    cursor: pointer;
+    box-shadow: none; 
+    outline: none; 
+}
+
+#ver-carrito img {
+    width: 80px; /* Tamaño de la imagen */
+    height: 80px;
+}
+
+#ver-carrito:hover img {
+    transform: scale(1.1); /* Efecto de agrandamiento al pasar el mouse */
+    transition: transform 0.2s ease;
+}
+
+.hidden {
+    display: none;
+}
+
+#carrito {
+    position: fixed;
+    top: 10%;
+    right: -10%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
 #quienes-somos{
     text-align: center;
 }
