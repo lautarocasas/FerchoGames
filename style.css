@@ -8,6 +8,9 @@ body, html {
     overflow: visible;
 }
 
+.main{
+    background-color: rgb(69, 51, 77);
+}
 /* Estilos de la barra de navegación */
 .navbar {
     display: flex;
@@ -51,7 +54,6 @@ nav a:hover {
     flex-wrap: wrap; /* Permite que los videojuegos se ajusten en filas */
     gap: 20px; /* Añade espacio entre los videojuegos */
     padding: 20px; /* Añade espacio alrededor del contenedor principal */
-    margin-top: 10px; /* Añade espacio entre la barra de navegación y los videojuegos */
     justify-content: center;
 }
 
@@ -59,7 +61,7 @@ nav a:hover {
 /* Estilos de portadas de videojuego */
 .videojuego {
     border: 10px groove rgb(0, 0, 0);
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(201, 255, 219);
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -92,7 +94,7 @@ nav a:hover {
     border: 2px solid black;
 }
 
-.videojuego button {
+button {
     background-color: #333;
     color: white;
     border: none;
@@ -102,7 +104,7 @@ nav a:hover {
     margin-top: 10px;
 }
 
-.videojuego button:hover {
+button:hover {
     background-color: #555; /* Color de fondo al pasar el cursor */
 }
 
@@ -135,13 +137,37 @@ nav a:hover {
 #carrito {
     position: fixed;
     top: 10%;
-    right: -10%;
-    transform: translate(-50%, -50%);
+    right: 0%; /* Ajusta según sea necesario */
     background: white;
     padding: 20px;
     border: 1px solid #ccc;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     z-index: 1000;
+    width: 400px; /* Define un ancho fijo */
+    height: 400px; /* Define un alto fijo */
+    overflow-y: auto; /* Habilita desplazamiento vertical */
+    flex-direction: column; /* Coloca los elementos en una columna */
+    gap: 10px; /* Espaciado entre elementos */
+}
+
+.juego-en-carrito{
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+}
+
+.juego-en-carrito img {
+    width: 80px; /* Hace que la imagen ocupe todo el ancho del contenedor */
+    height: 100px; /* Establece una altura fija */
+    object-fit: cover; /* Recorta la imagen para llenar el contenedor sin deformarse */
+    border: 2px solid black;
+}
+
+.datos-juego-carrito{
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    flex-direction: column;
 }
 
 #quienes-somos{
