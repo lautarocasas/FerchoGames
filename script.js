@@ -50,6 +50,19 @@ class Carrito
     agregarProducto(producto)
     {
         this.productos.push(producto);
+        //Crear el div correspondiente dentro del carrito
+        let divJuegoEnCarrito = document.createElement('div');
+        divJuegoEnCarrito.className = 'juego-en-carrito';
+        divJuegoEnCarrito.innerHTML = ` <img src = ${producto.imgPath} alt = "Imagen de ${this.nombre}">`;
+
+        //Crea el div con los datos del juego en el carrito
+        let divDatosJuego = document.createElement('div');
+        divDatosJuego.className = 'datos-juego-carrito';
+        divDatosJuego.innerHTML = `<h4> ${producto.nombre}</h4><h5>$${producto.precio}</h5>`;
+        divJuegoEnCarrito.appendChild(divDatosJuego);
+
+        let divJuegosEnCarrito = document.getElementById('lista-carrito');
+        divJuegosEnCarrito.appendChild(divJuegoEnCarrito);
     }
 
     calcularTotal()
@@ -67,4 +80,13 @@ class Carrito
 let carrito = new Carrito();
 
 let contenedorVideojuegos = document.getElementById('container-videojuegos');
-listaObjetosVideojuegos.forEach((elem)=>{contenedorVideojuegos.appendChild(elem.generarDiv())});
+listaObjetosVideojuegos.forEach((elem)=>{contenedorVideojuegos.appendChild(elem.generarDiv())});    //Generar un div por cada videojuego e insertarlo en el contenedor de videojuegos
+
+const botonCarrito = document.getElementById('ver-carrito');
+const interfazCarrito = document.getElementById('carrito');
+
+
+botonCarrito.addEventListener('click', () => {
+    interfazCarrito.classList.toggle('hidden');
+});
+
