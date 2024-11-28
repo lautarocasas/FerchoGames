@@ -25,40 +25,41 @@
         </nav>
     
     </header>
-
+    <section class="main">
     <!-- Sección de Videojuegos -->
-    <section id = "container-videojuegos">
-        <!-- Los videojuegos en venta se agregaran aqui mediante Javascript -->
+        <section id = "container-videojuegos">
+            <!-- Los videojuegos en venta se agregaran aqui mediante Javascript -->
+        </section>
+
+        <button id="ver-carrito">
+            <img src = "icons/cart.png" alt = "Carrito">
+        </button>
+
+        <div id="carrito" class="hidden">
+            <h2>Carrito de compras</h2>
+            <ul id="lista-carrito">
+                <!-- Aquí se agregarán los videojuegos que compre el usuario -->
+            </ul>
+            <button> Proceder al pago</button>
+        </div>
+
+        <!-- Seccion de quien soy -->
+        <section id="quienes-somos">
+            <h2>Quiénes somos</h2>
+            <p>FerchoGames es una plataforma de venta de videojuegos dedicada a ofrecer las mejores ofertas y juegos del momento.</p>
+        </section>
+
+        <!-- Sección de contacto -->
+        <section id="contacto">
+            <h2>Contacto</h2>
+            <a href="https://www.linkedin.com/in/lautaro-casas-5518b81a2/">
+                <img src = "icons/linkedinLogo.png" alt = "Logo de LinkedIn">
+            </a>
+            <a href="https://github.com/lautarocasas">
+                <img src = "icons/githubLogo.png" alt = "Logo de GitHub">
+            </a>
+        </section>
     </section>
-
-    <button id="ver-carrito">
-        <img src = "icons/cart.png" alt = "Carrito">
-    </button>
-
-    <div id="carrito" class="hidden">
-        <h2>Carrito de compras</h2>
-        <ul id="lista-carrito">
-            <!-- Aquí se agregarán los videojuegos que compre el usuario -->
-        </ul>
-    </div>
-
-    <!-- Seccion de quien soy -->
-    <section id="quienes-somos">
-        <h2>Quiénes somos</h2>
-        <p>FerchoGames es una plataforma de venta de videojuegos dedicada a ofrecer las mejores ofertas y juegos del momento.</p>
-    </section>
-
-    <!-- Sección de contacto -->
-    <section id="contacto">
-        <h2>Contacto</h2>
-        <a href="https://www.linkedin.com/in/lautaro-casas-5518b81a2/">
-            <img src = "icons/linkedinLogo.png" alt = "Logo de LinkedIn">
-        </a>
-        <a href="https://github.com/lautarocasas">
-            <img src = "icons/githubLogo.png" alt = "Logo de GitHub">
-        </a>
-    </section>
-
     <script src = "script.js"></script>
 </body>
 </html>
