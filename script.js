@@ -14,79 +14,156 @@ const listaVideojuegos = [  {nombre:"Monkey Island 4",precio:800,img:'Portadas/m
                             {nombre:"Resident Evil 3",precio:46000,img:'Portadas/residentEvil3.webp'}
 ];
 
-
 class Producto
 {
+    codProd;
     nombre;
     precio;
     imgPath;
 
-    constructor(nombre,precio,imgPath)
+    constructor(codProd,nombre,precio,imgPath)
     {
+        this.codProd = codProd;
         this.nombre = nombre;
         this.precio = precio;
         this.imgPath = imgPath;
     }
 
-    generarDiv()
+    generarDiv(carrito)
     {
         let div = document.createElement('div');
         div.className = 'videojuego';
         div.innerHTML = `<h3>${this.nombre}</h3> <img src = ${this.imgPath} alt = "Imagen de ${this.nombre}"> <h4>$${this.precio}ARS</h4> <button>Agregar al carrito</button>`;
 
         let botonCompra = div.querySelector('button');
-        botonCompra.addEventListener('click',()=>{carrito.agregarProducto(this);});
+        botonCompra.addEventListener('click',()=>{carrito.agregarProducto(this,1)});
         return div;
     }
 }
 
-const listaObjetosVideojuegos = listaVideojuegos.map((juego)=>{return new Producto(juego.nombre,juego.precio,juego.img)});
+const listaObjetosVideojuegos = listaVideojuegos.map((juego,index)=>{return new Producto(index,juego.nombre,juego.precio,juego.img)});
+
+class LineaDeVenta
+{
+    producto;
+    cantidad;
+
+    constructor(producto,cantidad)
+    {
+        this.producto = producto;
+        this.cantidad = cantidad;
+    }
+
+    calcularSubtotal()
+    {
+        return (this.producto.precio)*(this.cantidad);
+    }
+}
 
 class Carrito
 {
-    productos = [];
+    lineasDeVenta = [];
     constructor(){}
 
-    agregarProducto(producto)
+    agregarProducto(producto,cantidad)
     {
-        this.productos.push(producto);
-        //Crear el div correspondiente dentro del carrito
-        let divJuegoEnCarrito = document.createElement('div');
-        divJuegoEnCarrito.className = 'juego-en-carrito';
-        divJuegoEnCarrito.innerHTML = ` <img src = ${producto.imgPath} alt = "Imagen de ${this.nombre}">`;
+        // Verificar si el producto ya está en el carrito
+        let indiceLinea = this.lineasDeVenta.findIndex((elem)=>{return elem.producto.codProd === producto.codProd});
+        
+        if (indiceLinea != -1)
+        {
+            let cantActualizada = this.lineasDeVenta[indiceLinea].cantidad + cantidad;
+            this.lineasDeVenta[indiceLinea].cantidad = cantActualizada;
+        }
+        else
+        {
+            const nuevaLineaVenta = new LineaDeVenta(producto,cantidad);
+            this.lineasDeVenta.push(nuevaLineaVenta);
+        }
 
-        //Crea el div con los datos del juego en el carrito
-        let divDatosJuego = document.createElement('div');
-        divDatosJuego.className = 'datos-juego-carrito';
-        divDatosJuego.innerHTML = `<h4> ${producto.nombre}</h4><h5>$${producto.precio}</h5>`;
-        divJuegoEnCarrito.appendChild(divDatosJuego);
-
-        let divJuegosEnCarrito = document.getElementById('lista-carrito');
-        divJuegosEnCarrito.appendChild(divJuegoEnCarrito);
+        sessionStorage.setItem('carrito',JSON.stringify(this));
+        actualizarHTMLCarrito(this);
     }
 
     calcularTotal()
     {
-        let total = this.productos.reduce((costoTotal,producto)=>{return costoTotal+producto.precio},0);
+        let total = 0;
+        this.lineasDeVenta.forEach(linea => {
+            total += linea.calcularSubtotal();
+        });
         return total;
     }
 
-    mostrarProductos()
-    {
-        return this.productos.reduce(listarVideojuegos,"Nombre - Precio\n");
+    static fromJSON(data) {
+        let carrito = new Carrito();
+        carrito.lineasDeVenta = data.lineasDeVenta.map(linea =>
+            new LineaDeVenta(linea.producto, linea.cantidad)
+        );
+        return carrito;
     }
 }
 
-let carrito = new Carrito();
+function actualizarHTMLCarrito(carrito) {
+    let listaCarrito = document.getElementById('lista-carrito');
+    
+    // Limpiar el contenido del contenedor
+    listaCarrito.innerHTML = '';
+
+    // Generar el contenido dinámico del carrito
+    carrito.lineasDeVenta.forEach(lineaVenta => {
+        let div = document.createElement('div');
+        div.className = 'juego-en-carrito';
+        div.innerHTML = `<img src = ${lineaVenta.producto.imgPath} alt = "Imagen de ${lineaVenta.producto.nombre}">`;
+
+        let divDatosJuego = document.createElement('div');
+        divDatosJuego.className = 'datos-juego-carrito';
+        divDatosJuego.innerHTML = `<h4 class = 'linea-producto'> ${lineaVenta.producto.nombre}</h4><h5 class = 'linea-precio'>$${lineaVenta.producto.precio}</h5><h5 class = 'linea-cantidad'>Cantidad: ${lineaVenta.cantidad}</h5> `;
+        div.appendChild(divDatosJuego);
+        listaCarrito.appendChild(div);
+    });
+
+    let totalCarritoHTML = document.getElementById('total-carrito');  
+    totalCarritoHTML.innerText = `Total a pagar: $${carrito.calcularTotal()}`;
+}
+
+let carritoGuardado = JSON.parse(sessionStorage.getItem('carrito'));
+
+let carrito;
+if (carritoGuardado) {
+    carrito = Carrito.fromJSON(carritoGuardado);
+} else {
+    carrito = new Carrito();
+}
 
 let contenedorVideojuegos = document.getElementById('container-videojuegos');
-listaObjetosVideojuegos.forEach((elem)=>{contenedorVideojuegos.appendChild(elem.generarDiv())});    //Generar un div por cada videojuego e insertarlo en el contenedor de videojuegos
+listaObjetosVideojuegos.forEach((elem)=>{contenedorVideojuegos.appendChild(elem.generarDiv(carrito))});    //Generar un div por cada videojuego e insertarlo en el contenedor de videojuegos
 
-const botonCarrito = document.getElementById('ver-carrito');
+const botonMostrarCarrito = document.getElementById('ver-carrito');
+const botonPagar = document.getElementById('boton-pagar');
+const botonVaciarCarrito = document.getElementById('boton-vaciar-carrito');
 const interfazCarrito = document.getElementById('carrito');
 
+botonVaciarCarrito.addEventListener('click', () => {
+    let confirmarLimpieza = confirm("¿Desea vaciar el carrito? (Esta accion no se puede deshacer)");
+    if(confirmarLimpieza)
+    {
+        carrito.lineasDeVenta = [];
+        actualizarHTMLCarrito(carrito);
+    }
+});
 
-botonCarrito.addEventListener('click', () => {
+botonPagar.addEventListener('click', ()=> {
+    let confirmarPago = confirm("¿Confirmar la compra y proceder al pago?");
+    if(confirmarPago)
+    {
+        carrito.lineasDeVenta = [];
+        actualizarHTMLCarrito(carrito);
+        alert("¡Muchas gracias por su compra!");
+    }
+});
+
+botonMostrarCarrito.addEventListener('click', () => {
     interfazCarrito.classList.toggle('hidden');
 });
 
+document.addEventListener('DOMContentLoaded', actualizarHTMLCarrito(carrito));
