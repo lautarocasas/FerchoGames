@@ -148,6 +148,7 @@ botonVaciarCarrito.addEventListener('click', () => {
     if(confirmarLimpieza)
     {
         carrito.lineasDeVenta = [];
+        sessionStorage.removeItem('carrito');
         actualizarHTMLCarrito(carrito);
     }
 });
@@ -157,6 +158,7 @@ botonPagar.addEventListener('click', ()=> {
     if(confirmarPago)
     {
         carrito.lineasDeVenta = [];
+        sessionStorage.removeItem('carrito');
         actualizarHTMLCarrito(carrito);
         alert("¡Muchas gracias por su compra!");
     }
