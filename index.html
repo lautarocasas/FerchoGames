@@ -20,12 +20,32 @@
             <div class="navbar-right">
                 <a href="#contacto">Contacto</a>
                 <a href="#quienes-somos">Quiénes somos</a>
-                <a href="#ingresar">Ingresar</a>
+                <a href="#ingresar" id="btn-ingresar">Ingresar</a>
             </div>
         </nav>
-    
     </header>
     <section class="main">
+        <div id="interfaz-login" class="interfaz-form hidden">
+            <form id="form-login">
+                <h2>Iniciar sesión</h2>
+                <input type="text" name="user" placeholder="Usuario" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
+                <button type="submit">Ingresar</button>
+            </form>
+            <button type="button" id="boton-registro">Registrarse</button>
+            <button type="button" id="cerrar-login">Cerrar</button>
+        </div>
+
+        <div id="interfaz-registro" class="interfaz-form hidden">
+            <form id="form-registro">
+                <h2>Registrarse en FerchoGames</h2>
+                <input type="text" name="user" placeholder="Usuario" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
+                <input type="password" name="passwordRepeat" placeholder="Repetir Contraseña" required>
+                <button type="button" id="boton-registro">Registrarse</button>
+                <button type="button" id="cerrar-registro">Cerrar</button>
+            </form>
+        </div>
     <!-- Sección de Videojuegos -->
         <section id = "container-videojuegos">
             <!-- Los videojuegos en venta se agregaran aqui mediante Javascript -->
@@ -62,6 +82,7 @@
             </a>
         </section>
     </section>
-    <script src = "script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src = "script.js"></script>
 </body>
 </html>
