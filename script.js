@@ -1,3 +1,6 @@
+import { Carrito,Producto,actualizarHTMLCarrito } from "./moduloCompra.js";
+
+
 const listaVideojuegos = [  {nombre:"Monkey Island 4",precio:800,img:'Portadas/monkey4.jpg'},
                             {nombre:"Doom Eternal",precio:2800,img:'Portadas/doomEternal.webp'},
                             {nombre:"The Binding of Isaac",precio:2000,img:'Portadas/tboi.jpg'},
@@ -14,119 +17,16 @@ const listaVideojuegos = [  {nombre:"Monkey Island 4",precio:800,img:'Portadas/m
                             {nombre:"Resident Evil 3",precio:46000,img:'Portadas/residentEvil3.webp'}
 ];
 
-class Producto
-{
-    codProd;
-    nombre;
-    precio;
-    imgPath;
-
-    constructor(codProd,nombre,precio,imgPath)
-    {
-        this.codProd = codProd;
-        this.nombre = nombre;
-        this.precio = precio;
-        this.imgPath = imgPath;
-    }
-
-    generarDiv(carrito)
-    {
-        let div = document.createElement('div');
-        div.className = 'videojuego';
-        div.innerHTML = `<h3>${this.nombre}</h3> <img src = ${this.imgPath} alt = "Imagen de ${this.nombre}"> <h4>$${this.precio}ARS</h4> <button>Agregar al carrito</button>`;
-
-        let botonCompra = div.querySelector('button');
-        botonCompra.addEventListener('click',()=>{carrito.agregarProducto(this,1)});
-        return div;
-    }
-}
+const listaUsuarios = new Map();
+listaUsuarios.set("admin","admin");
 
 const listaObjetosVideojuegos = listaVideojuegos.map((juego,index)=>{return new Producto(index,juego.nombre,juego.precio,juego.img)});
 
-class LineaDeVenta
-{
-    producto;
-    cantidad;
-
-    constructor(producto,cantidad)
-    {
-        this.producto = producto;
-        this.cantidad = cantidad;
-    }
-
-    calcularSubtotal()
-    {
-        return (this.producto.precio)*(this.cantidad);
-    }
-}
-
-class Carrito
-{
-    lineasDeVenta = [];
-    constructor(){}
-
-    agregarProducto(producto,cantidad)
-    {
-        // Verificar si el producto ya está en el carrito
-        let indiceLinea = this.lineasDeVenta.findIndex((elem)=>{return elem.producto.codProd === producto.codProd});
-        
-        if (indiceLinea != -1)
-        {
-            let cantActualizada = this.lineasDeVenta[indiceLinea].cantidad + cantidad;
-            this.lineasDeVenta[indiceLinea].cantidad = cantActualizada;
-        }
-        else
-        {
-            const nuevaLineaVenta = new LineaDeVenta(producto,cantidad);
-            this.lineasDeVenta.push(nuevaLineaVenta);
-        }
-
-        sessionStorage.setItem('carrito',JSON.stringify(this));
-        actualizarHTMLCarrito(this);
-    }
-
-    calcularTotal()
-    {
-        let total = 0;
-        this.lineasDeVenta.forEach(linea => {
-            total += linea.calcularSubtotal();
-        });
-        return total;
-    }
-
-    static fromJSON(data) {
-        let carrito = new Carrito();
-        carrito.lineasDeVenta = data.lineasDeVenta.map(linea =>
-            new LineaDeVenta(linea.producto, linea.cantidad)
-        );
-        return carrito;
-    }
-}
-
-function actualizarHTMLCarrito(carrito) {
-    let listaCarrito = document.getElementById('lista-carrito');
-    
-    // Limpiar el contenido del contenedor
-    listaCarrito.innerHTML = '';
-
-    // Generar el contenido dinámico del carrito
-    carrito.lineasDeVenta.forEach(lineaVenta => {
-        let div = document.createElement('div');
-        div.className = 'juego-en-carrito';
-        div.innerHTML = `<img src = ${lineaVenta.producto.imgPath} alt = "Imagen de ${lineaVenta.producto.nombre}">`;
-
-        let divDatosJuego = document.createElement('div');
-        divDatosJuego.className = 'datos-juego-carrito';
-        divDatosJuego.innerHTML = `<h4 class = 'linea-producto'> ${lineaVenta.producto.nombre}</h4><h5 class = 'linea-precio'>$${lineaVenta.producto.precio}</h5><h5 class = 'linea-cantidad'>Cantidad: ${lineaVenta.cantidad}</h5> `;
-        div.appendChild(divDatosJuego);
-        listaCarrito.appendChild(div);
-    });
-
-    let totalCarritoHTML = document.getElementById('total-carrito');  
-    totalCarritoHTML.innerText = `Total a pagar: $${carrito.calcularTotal()}`;
-}
 
 let carritoGuardado = JSON.parse(sessionStorage.getItem('carrito'));
+let usuarioActual = sessionStorage.getItem('usuarioActual');
+
+console.log(usuarioActual);
 
 let carrito;
 if (carritoGuardado) {
@@ -141,7 +41,15 @@ listaObjetosVideojuegos.forEach((elem)=>{contenedorVideojuegos.appendChild(elem.
 const botonMostrarCarrito = document.getElementById('ver-carrito');
 const botonPagar = document.getElementById('boton-pagar');
 const botonVaciarCarrito = document.getElementById('boton-vaciar-carrito');
+const botonIngresar = document.getElementById('btn-ingresar');
 const interfazCarrito = document.getElementById('carrito');
+const interfazLogin = document.getElementById('interfaz-login');
+const interfazRegistro = document.getElementById('interfaz-registro');
+const formLogin = document.getElementById('form-login');
+const cerrarLogin = document.getElementById('cerrar-login');
+const cerrarRegistro = document.getElementById('cerrar-registro');
+const botonRegistro = document.getElementById('boton-registro');
+
 
 botonVaciarCarrito.addEventListener('click', () => {
     let confirmarLimpieza = confirm("¿Desea vaciar el carrito? (Esta accion no se puede deshacer)");
@@ -160,12 +68,49 @@ botonPagar.addEventListener('click', ()=> {
         carrito.lineasDeVenta = [];
         sessionStorage.removeItem('carrito');
         actualizarHTMLCarrito(carrito);
-        alert("¡Muchas gracias por su compra!");
+        Swal.fire("¡Muchas gracias por su compra!");
     }
 });
 
 botonMostrarCarrito.addEventListener('click', () => {
     interfazCarrito.classList.toggle('hidden');
+});
+
+
+botonIngresar.addEventListener('click', (event) => {
+    event.preventDefault(); // Evitar el comportamiento por defecto del enlace
+    interfazLogin.classList.remove('hidden');
+    interfazCarrito.classList.add('hidden');
+});
+
+botonRegistro.addEventListener('click',(event)=>{
+    event.preventDefault();
+
+    interfazLogin.classList.add('hidden');
+    interfazRegistro.classList.remove('hidden');
+})
+
+cerrarLogin.addEventListener('click', () => {
+    interfazLogin.classList.add('hidden');
+});
+
+cerrarRegistro.addEventListener('click', () => {
+    interfazRegistro.classList.add('hidden');
+
+});
+
+formLogin.addEventListener('submit',(e)=>{
+    e.preventDefault();
+
+    const usarioIngresado = formLogin.user.value;
+    const passIngresada = formLogin.password.value;
+
+    
+    if(passIngresada === listaUsuarios.get(usarioIngresado))
+    {
+        sessionStorage.setItem("usuarioActual",usarioIngresado);
+    }
+
 });
 
 document.addEventListener('DOMContentLoaded', actualizarHTMLCarrito(carrito));
