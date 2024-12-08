@@ -49,6 +49,30 @@ nav a:hover {
     font-weight: bold;
 }
 
+.interfaz-form
+{
+    background-color: #ccc;
+    position: fixed;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    padding: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border: 10px groove rgb(0, 0, 0);
+}
+
+.interfaz-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.interfaz-form button {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
 #container-videojuegos {
     display: flex;
     flex-wrap: wrap; /* Permite que los videojuegos se ajusten en filas */
@@ -60,7 +84,7 @@ nav a:hover {
 
 /* Estilos de portadas de videojuego */
 .videojuego {
-    border: 10px groove rgb(0, 0, 0);
+    border: 5px solid rgb(0, 0, 0);
     background-color: rgb(201, 255, 219);
     padding: 10px;
     display: flex;
