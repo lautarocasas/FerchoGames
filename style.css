@@ -6,10 +6,12 @@
 
 body, html {
     overflow: visible;
+    background-color:  rgb(69, 51, 77);
 }
 
 .main{
-    background-color: rgb(69, 51, 77);
+    align-items: center;
+    margin-top: 100px;
 }
 /* Estilos de la barra de navegación */
 .navbar {
@@ -18,7 +20,7 @@ body, html {
     align-items: center;
     background-color: #000000; /* Color de fondo oscuro para la barra */
     padding: 24px;
-    position: sticky; /* Fija la barra en la parte superior al hacer scroll */
+    position: fixed; /* Fija la barra en la parte superior al hacer scroll */
     top: 0;
     width: 100%; /* Asegura que ocupe todo el ancho de la página */
     z-index: 1000; /* Asegura que la barra siempre esté encima de otros elementos */
@@ -71,6 +73,36 @@ nav a:hover {
 .interfaz-form button {
     padding: 5px 10px;
     cursor: pointer;
+}
+
+#barra-busqueda
+{
+    display: flex; /* Activa el modelo flexbox */
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Ocupa todo el ancho de la página */
+}
+
+#barra-busqueda input {
+    width: 600px;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#boton-buscar {
+    display: flex;
+    font-size: 16px;
+    background-color: #007BFF; /* Color de fondo azul */
+    color: white; /* Color del texto */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor tipo mano */
+    margin-bottom: 10px;
+}
+
+#boton-buscar:hover {
+    background-color: #0056b3; /* Color más oscuro al pasar el mouse */
 }
 
 #container-videojuegos {

@@ -17,8 +17,7 @@ const listaVideojuegos = [  {nombre:"Monkey Island 4",precio:800,img:'Portadas/m
                             {nombre:"Resident Evil 3",precio:46000,img:'Portadas/residentEvil3.webp'}
 ];
 
-const listaUsuarios = new Map();
-listaUsuarios.set("admin","admin");
+localStorage.setItem("user:admin","admin");
 
 const listaObjetosVideojuegos = listaVideojuegos.map((juego,index)=>{return new Producto(index,juego.nombre,juego.precio,juego.img)});
 
@@ -49,6 +48,9 @@ const formLogin = document.getElementById('form-login');
 const cerrarLogin = document.getElementById('cerrar-login');
 const cerrarRegistro = document.getElementById('cerrar-registro');
 const botonRegistro = document.getElementById('boton-registro');
+const barraNavegacion = document.querySelector('.navbar-right');
+const botonBuscar = document.getElementById('boton-buscar');
+const inputBusqueda = document.getElementById('cuadro-busqueda');
 
 
 botonVaciarCarrito.addEventListener('click', () => {
@@ -78,7 +80,7 @@ botonMostrarCarrito.addEventListener('click', () => {
 
 
 botonIngresar.addEventListener('click', (event) => {
-    event.preventDefault(); // Evitar el comportamiento por defecto del enlace
+    event.preventDefault();  
     interfazLogin.classList.remove('hidden');
     interfazCarrito.classList.add('hidden');
 });
@@ -102,15 +104,37 @@ cerrarRegistro.addEventListener('click', () => {
 formLogin.addEventListener('submit',(e)=>{
     e.preventDefault();
 
-    const usarioIngresado = formLogin.user.value;
+    const usuarioIngresado = formLogin.user.value;
     const passIngresada = formLogin.password.value;
 
     
-    if(passIngresada === listaUsuarios.get(usarioIngresado))
+    if(passIngresada === localStorage.getItem("user:"+usuarioIngresado))
     {
-        sessionStorage.setItem("usuarioActual",usarioIngresado);
+        sessionStorage.setItem("usuarioActual",usuarioIngresado);
+        swal.fire("Inicio de sesion exitoso");
+        interfazLogin.classList.add('hidden');
+        botonIngresar.classList.add('hidden');
+        const botonBienvenida = document.createElement('a');
+        botonBienvenida.innerText = `Bienvenido/a ${usuarioIngresado}`;
+        barraNavegacion.appendChild(botonBienvenida);
     }
 
+});
+
+botonBuscar.addEventListener('click', () => {
+    const textoBusqueda = inputBusqueda.value;
+    const listaVideojuegos = contenedorVideojuegos.querySelectorAll(".videojuego");
+
+    listaVideojuegos.forEach(videojuego => {
+        const nombreVideojuego = videojuego.querySelector("h3").innerText.toLowerCase();
+        
+        // Verificar si el nombre coincide con el texto ingresado
+        if (nombreVideojuego.includes(textoBusqueda)) {
+            videojuego.classList.remove("hidden"); // Mostrar el elemento
+        } else {
+            videojuego.classList.add("hidden"); // Ocultar el elemento
+        }
+    });
 });
 
 document.addEventListener('DOMContentLoaded', actualizarHTMLCarrito(carrito));

@@ -1,3 +1,14 @@
+const Toast = Swal.mixin({
+    toast: true,
+    position: "bottom-start",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    background: "#ffffff",
+    color: "#000000"
+  });
+
+
 export class Producto
 {
     codProd;
@@ -20,7 +31,14 @@ export class Producto
         div.innerHTML = `<h3>${this.nombre}</h3> <img src = ${this.imgPath} alt = "Imagen de ${this.nombre}"> <h4>$${this.precio}ARS</h4> <button>Agregar al carrito</button>`;
 
         let botonCompra = div.querySelector('button');
-        botonCompra.addEventListener('click',()=>{carrito.agregarProducto(this,1)});
+        botonCompra.addEventListener('click',()=>{
+            carrito.agregarProducto(this,1);
+            Toast.fire({
+                icon: "success",
+                title: `${this.nombre} agregado al carrito`
+              });
+
+        });
         return div;
     }
 }
