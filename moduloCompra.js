@@ -85,12 +85,15 @@ export class Carrito
         actualizarHTMLCarrito(this);
     }
 
+    obtenerCantidadTotal()
+    {
+        let cantProductos = this.lineasDeVenta.reduce((cantTotal,linea)=>{return cantTotal+linea.cantidad},0);
+        return cantProductos;
+    }
+
     calcularTotal()
     {
-        let total = 0;
-        this.lineasDeVenta.forEach(linea => {
-            total += linea.calcularSubtotal();
-        });
+        let total = this.lineasDeVenta.reduce((costoTotal,linea)=>{return costoTotal+linea.calcularSubtotal()},0);
         return total;
     }
 
@@ -105,7 +108,9 @@ export class Carrito
 
 export function actualizarHTMLCarrito(carrito) {
     let listaCarrito = document.getElementById('lista-carrito');
-    
+    let cantElemCarritoElement = document.getElementById('cant-elem-carrito');
+    let cantElemCarrito = carrito.obtenerCantidadTotal();
+
     // Limpiar el contenido del contenedor
     listaCarrito.innerHTML = '';
 
@@ -124,5 +129,10 @@ export function actualizarHTMLCarrito(carrito) {
 
     let totalCarritoHTML = document.getElementById('total-carrito');  
     totalCarritoHTML.innerText = `Total a pagar: $${carrito.calcularTotal()}`;
+
+    if(cantElemCarrito!=0)
+        cantElemCarritoElement.innerText = cantElemCarrito;
+    else
+        cantElemCarritoElement.innerText = '';
 }
 
