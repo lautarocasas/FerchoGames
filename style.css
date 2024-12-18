@@ -67,6 +67,7 @@ nav a:hover {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     border: 10px groove rgb(0, 0, 0);
+    z-index: 999;
 }
 
 .interfaz-form form {
@@ -99,20 +100,20 @@ nav a:hover {
 #boton-buscar {
     display: flex;
     font-size: 16px;
-    background-color: #007BFF; /* Color de fondo azul */
-    color: white; /* Color del texto */
-    border-radius: 5px; /* Bordes redondeados */
-    cursor: pointer; /* Cursor tipo mano */
+    background-color: #6a0d8f; 
+    color: white; 
+    border-radius: 5px; 
+    cursor: pointer;
     margin-bottom: 10px;
 }
 
 #boton-buscar:hover {
-    background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+    background-color: #763191; 
 }
 
 #container-videojuegos {
     display: flex;
-    flex-wrap: wrap; /* Permite que los videojuegos se ajusten en filas */
+    flex-wrap: wrap; 
     gap: 20px; /* Añade espacio entre los videojuegos */
     padding: 20px; /* Añade espacio alrededor del contenedor principal */
     justify-content: center;
@@ -137,7 +138,8 @@ nav a:hover {
 
 .videojuego:hover
 {
-    transform: scale(105%,105%);
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
 }
 
 .videojuego h3 {
@@ -192,29 +194,41 @@ button:hover {
     height: 80px;
 }
 
+#cant-elem-carrito {
+    position: absolute;
+    top: 32px; /* Ajusta la posición según sea necesario */
+    right: 22px; /* Ajusta la posición según sea necesario */
+    color: white;
+    padding: 0 5px;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
 #ver-carrito:hover img {
-    transform: scale(1.1); /* Efecto de agrandamiento al pasar el mouse */
+    transform: scale(1.1);
     transition: transform 0.2s ease;
 }
+
 
 .hidden {
     display: none;
 }
 
 #carrito {
+    font-family: 'Raleway', sans-serif;
     position: fixed;
-    top: 10%;
-    right: 0%; /* Ajusta según sea necesario */
+    bottom: 120px;
+    right: 0%;
     background: white;
     padding: 20px;
     border: 1px solid #ccc;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    width: 400px; /* Define un ancho fijo */
-    height: 400px; /* Define un alto fijo */
-    overflow-y: auto; /* Habilita desplazamiento vertical */
-    flex-direction: column; /* Coloca los elementos en una columna */
-    gap: 10px; /* Espaciado entre elementos */
+    width: 400px; 
+    height: 400px; 
+    overflow-y: auto; 
+    flex-direction: column; 
+    gap: 10px; 
+    border-radius: 10px;
 }
 
 .juego-en-carrito{
@@ -253,4 +267,12 @@ button:hover {
     width: 64px;
     height:64px;
     margin: 8px;
+}
+
+#contacto img:hover {
+    width: 64px;
+    height:64px;
+    margin: 8px;
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
 }
