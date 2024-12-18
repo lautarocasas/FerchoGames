@@ -6,7 +6,11 @@
 
 body, html {
     overflow: visible;
-    background-color:  rgb(69, 51, 77);
+    background-color: black;
+    background-image: url(background.jpg);
+    background-size: cover;
+    background-position: center; 
+    background-repeat: no-repeat; 
 }
 
 .main{
@@ -18,12 +22,12 @@ body, html {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #000000; /* Color de fondo oscuro para la barra */
+    background-color: rgba(0, 0, 0, 0.9);
     padding: 24px;
-    position: fixed; /* Fija la barra en la parte superior al hacer scroll */
+    position: fixed;
     top: 0;
-    width: 100%; /* Asegura que ocupe todo el ancho de la página */
-    z-index: 1000; /* Asegura que la barra siempre esté encima de otros elementos */
+    width: 100%;
+    z-index: 1000;
 }
 
 nav li {
@@ -35,6 +39,7 @@ nav a {
     text-decoration: none;
     padding: 20px;
     font-size: 16px;
+    border-radius: 10px;
 }
 
 nav a:hover {
@@ -127,6 +132,12 @@ nav a:hover {
     text-align: center;
     width: 260px; /* Aumenta el ancho del contenedor */
     height: 350px; /* Aumenta la altura del contenedor si es necesario */
+    border-radius: 20px;
+}
+
+.videojuego:hover
+{
+    transform: scale(105%,105%);
 }
 
 .videojuego h3 {
@@ -227,10 +238,14 @@ button:hover {
 }
 
 #quienes-somos{
+    font-family: 'Raleway', sans-serif;
+    color: white;
     text-align: center;
 }
 
 #contacto{
+    font-family: 'Raleway', sans-serif;
+    color: white;
     text-align: center;
 }
 

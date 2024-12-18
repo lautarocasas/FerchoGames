@@ -45,13 +45,13 @@ const interfazCarrito = document.getElementById('carrito');
 const interfazLogin = document.getElementById('interfaz-login');
 const interfazRegistro = document.getElementById('interfaz-registro');
 const formLogin = document.getElementById('form-login');
+const formRegistro = document.getElementById('form-registro');
 const cerrarLogin = document.getElementById('cerrar-login');
 const cerrarRegistro = document.getElementById('cerrar-registro');
-const botonRegistro = document.getElementById('boton-registro');
+const abrirRegistro = document.getElementById('abrir-registro');
 const barraNavegacion = document.querySelector('.navbar-right');
 const botonBuscar = document.getElementById('boton-buscar');
 const inputBusqueda = document.getElementById('cuadro-busqueda');
-
 
 botonVaciarCarrito.addEventListener('click', () => {
     let confirmarLimpieza = confirm("¿Desea vaciar el carrito? (Esta accion no se puede deshacer)");
@@ -64,6 +64,13 @@ botonVaciarCarrito.addEventListener('click', () => {
 });
 
 botonPagar.addEventListener('click', ()=> {
+
+    if(!usuarioActual)
+    {
+        alert('Debes iniciar sesion');
+        return;
+    }
+
     let confirmarPago = confirm("¿Confirmar la compra y proceder al pago?");
     if(confirmarPago)
     {
@@ -85,7 +92,7 @@ botonIngresar.addEventListener('click', (event) => {
     interfazCarrito.classList.add('hidden');
 });
 
-botonRegistro.addEventListener('click',(event)=>{
+abrirRegistro.addEventListener('click',(event)=>{
     event.preventDefault();
 
     interfazLogin.classList.add('hidden');
@@ -118,7 +125,33 @@ formLogin.addEventListener('submit',(e)=>{
         botonBienvenida.innerText = `Bienvenido/a ${usuarioIngresado}`;
         barraNavegacion.appendChild(botonBienvenida);
     }
+});
 
+formRegistro.addEventListener('submit',(e)=>
+{
+    e.preventDefault();
+
+    const usuarioIngresado = formRegistro.user.value;
+    const passIngresada = formRegistro.password.value;
+    const passRepeatIngresada = formRegistro.passwordRepeat.value;
+
+    if(localStorage.getItem('user:'+usuarioIngresado))
+    {
+        swal.fire('Ya existe un usuario con ese nombre');
+        formRegistro.reset();
+        return;
+    }
+
+    if(passIngresada!==passRepeatIngresada)
+    {
+        swal.fire('Las contraseñas no coinciden');
+        formRegistro.reset();
+        return;
+    }    
+
+    localStorage.setItem("user:"+usuarioIngresado,passIngresada);
+    swal.fire("Registro exitoso");
+    interfazRegistro.classList.add('hidden');
 });
 
 botonBuscar.addEventListener('click', () => {
