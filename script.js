@@ -1,31 +1,16 @@
-import { Carrito,Producto,actualizarHTMLCarrito } from "./moduloCompra.js";
-
-
-const listaVideojuegos = [  {nombre:"Monkey Island 4",precio:800,img:'Portadas/monkey4.jpg'},
-                            {nombre:"Doom Eternal",precio:2800,img:'Portadas/doomEternal.webp'},
-                            {nombre:"The Binding of Isaac",precio:2000,img:'Portadas/tboi.jpg'},
-                            {nombre:"Devil May Cry 5",precio:3600,img:'Portadas/devilMayCry5.avif'},
-                            {nombre:"Minecraft",precio:4000,img:'Portadas/minecraft.png'},
-                            {nombre:"Dead by Daylight",precio:2600,img:'Portadas/deadByDaylight.png'},
-                            {nombre:"Fall Guys",precio:2600,img:'Portadas/fallGuys.jpg'},
-                            {nombre:"Overcooked 2",precio:2200,img:'Portadas/overcooked2.jpg'},
-                            {nombre:"Mortal Kombat 1",precio:8200,img:'Portadas/mortalKombat1.webp'},
-                            {nombre:"Grand Theft Auto V",precio:4200,img:'Portadas/gtaV.webp'},
-                            {nombre:"Overwatch 2",precio:6800,img:'Portadas/overwatch2.webp'},
-                            {nombre:"Hollow Knight",precio:2800,img:'Portadas/hollowKnight.webp'},
-                            {nombre:"Dragon Ball: Sparking! Zero",precio:80000,img:'Portadas/dragonBall.jpg'},
-                            {nombre:"Resident Evil 3",precio:46000,img:'Portadas/residentEvil3.webp'}
-];
+import { Carrito,actualizarHTMLCarrito,importarListadoJSON } from "./moduloCompra.js";
 
 localStorage.setItem("user:admin","admin");
 
-const listaObjetosVideojuegos = listaVideojuegos.map((juego,index)=>{return new Producto(index,juego.nombre,juego.precio,juego.img)});
+importarListadoJSON('./listadoVideojuegos.json').
+    then(listaObjetosVideojuegos=>{
+        listaObjetosVideojuegos.forEach((elem)=>{
+            contenedorVideojuegos.appendChild(elem.generarDiv(carrito))
+        })
+    });
 
 
 let carritoGuardado = JSON.parse(sessionStorage.getItem('carrito'));
-let usuarioActual = sessionStorage.getItem('usuarioActual');
-
-console.log(usuarioActual);
 
 let carrito;
 if (carritoGuardado) {
@@ -35,23 +20,41 @@ if (carritoGuardado) {
 }
 
 let contenedorVideojuegos = document.getElementById('container-videojuegos');
-listaObjetosVideojuegos.forEach((elem)=>{contenedorVideojuegos.appendChild(elem.generarDiv(carrito))});    //Generar un div por cada videojuego e insertarlo en el contenedor de videojuegos
+   //Generar un div por cada videojuego e insertarlo en el contenedor de videojuegos
 
+// Elementos carrito
 const botonMostrarCarrito = document.getElementById('ver-carrito');
 const botonPagar = document.getElementById('boton-pagar');
 const botonVaciarCarrito = document.getElementById('boton-vaciar-carrito');
 const botonIngresar = document.getElementById('btn-ingresar');
+const botonBienvenida = document.getElementById('boton-bienvenida');
 const interfazCarrito = document.getElementById('carrito');
+// Interfaces formularios
 const interfazLogin = document.getElementById('interfaz-login');
 const interfazRegistro = document.getElementById('interfaz-registro');
+const interfazCheckout = document.getElementById('interfaz-checkout');
 const formLogin = document.getElementById('form-login');
 const formRegistro = document.getElementById('form-registro');
 const cerrarLogin = document.getElementById('cerrar-login');
 const cerrarRegistro = document.getElementById('cerrar-registro');
+const cerrarCheckout = document.getElementById('cerrar-checkout');
 const abrirRegistro = document.getElementById('abrir-registro');
 const barraNavegacion = document.querySelector('.navbar-right');
 const botonBuscar = document.getElementById('boton-buscar');
 const inputBusqueda = document.getElementById('cuadro-busqueda');
+
+function mostrarBienvenidaUsuario(usuario)
+{
+    botonBienvenida.innerText = `Bienvenido/a ${usuario}`;
+    botonIngresar.classList.add('hidden');
+    botonBienvenida.classList.remove('hidden');
+}
+
+let usuarioActual = sessionStorage.getItem('usuarioActual');
+if(usuarioActual)
+    mostrarBienvenidaUsuario(usuarioActual);
+
+
 
 botonVaciarCarrito.addEventListener('click', () => {
     let confirmarLimpieza = confirm("¿Desea vaciar el carrito? (Esta accion no se puede deshacer)");
@@ -65,20 +68,13 @@ botonVaciarCarrito.addEventListener('click', () => {
 
 botonPagar.addEventListener('click', ()=> {
 
-    if(!usuarioActual)
+    if(!sessionStorage.getItem('usuarioActual'))
     {
         alert('Debes iniciar sesion');
         return;
     }
 
-    let confirmarPago = confirm("¿Confirmar la compra y proceder al pago?");
-    if(confirmarPago)
-    {
-        carrito.lineasDeVenta = [];
-        sessionStorage.removeItem('carrito');
-        actualizarHTMLCarrito(carrito);
-        Swal.fire("¡Muchas gracias por su compra!");
-    }
+    interfazCheckout.classList.remove('hidden');
 });
 
 botonMostrarCarrito.addEventListener('click', () => {
@@ -105,8 +101,12 @@ cerrarLogin.addEventListener('click', () => {
 
 cerrarRegistro.addEventListener('click', () => {
     interfazRegistro.classList.add('hidden');
-
 });
+
+cerrarCheckout.addEventListener('click', () => {
+    interfazCheckout.classList.add('hidden');
+});
+
 
 formLogin.addEventListener('submit',(e)=>{
     e.preventDefault();
@@ -121,9 +121,7 @@ formLogin.addEventListener('submit',(e)=>{
         swal.fire("Inicio de sesion exitoso");
         interfazLogin.classList.add('hidden');
         botonIngresar.classList.add('hidden');
-        const botonBienvenida = document.createElement('a');
-        botonBienvenida.innerText = `Bienvenido/a ${usuarioIngresado}`;
-        barraNavegacion.appendChild(botonBienvenida);
+        mostrarBienvenidaUsuario(usuarioIngresado);
     }
 });
 

@@ -1,0 +1,72 @@
+[
+    {
+        "nombre": "Monkey Island 4",
+        "precio": 800,
+        "img": "Portadas/monkey4.jpg"
+    },
+    {
+        "nombre": "Doom Eternal",
+        "precio": 2800,
+        "img": "Portadas/doomEternal.webp"
+    },
+    {
+        "nombre": "The Binding of Isaac",
+        "precio": 2000,
+        "img": "Portadas/tboi.jpg"
+    },
+    {
+        "nombre": "Devil May Cry 5",
+        "precio": 3600,
+        "img": "Portadas/devilMayCry5.avif"
+    },
+    {
+        "nombre": "Minecraft",
+        "precio": 4000,
+        "img": "Portadas/minecraft.png"
+    },
+    {
+        "nombre": "Dead by Daylight",
+        "precio": 2600,
+        "img": "Portadas/deadByDaylight.png"
+    },
+    {
+        "nombre": "Fall Guys",
+        "precio": 2600,
+        "img": "Portadas/fallGuys.jpg"
+    },
+    {
+        "nombre": "Overcooked 2",
+        "precio": 2200,
+        "img": "Portadas/overcooked2.jpg"
+    },
+    {
+        "nombre": "Mortal Kombat 1",
+        "precio": 8200,
+        "img": "Portadas/mortalKombat1.webp"
+    },
+    {
+        "nombre": "Grand Theft Auto V",
+        "precio": 4200,
+        "img": "Portadas/gtaV.webp"
+    },
+    {
+        "nombre": "Overwatch 2",
+        "precio": 6800,
+        "img": "Portadas/overwatch2.webp"
+    },
+    {
+        "nombre": "Hollow Knight",
+        "precio": 2800,
+        "img": "Portadas/hollowKnight.webp"
+    },
+    {
+        "nombre": "Dragon Ball: Sparking! Zero",
+        "precio": 80000,
+        "img": "Portadas/dragonBall.jpg"
+    },
+    {
+        "nombre": "Resident Evil 3",
+        "precio": 46000,
+        "img": "Portadas/residentEvil3.webp"
+    }
+]

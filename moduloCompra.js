@@ -87,14 +87,12 @@ export class Carrito
 
     obtenerCantidadTotal()
     {
-        let cantProductos = this.lineasDeVenta.reduce((cantTotal,linea)=>{return cantTotal+linea.cantidad},0);
-        return cantProductos;
+        return this.lineasDeVenta.reduce((cantTotal,linea)=>{return cantTotal+linea.cantidad},0);
     }
 
     calcularTotal()
     {
-        let total = this.lineasDeVenta.reduce((costoTotal,linea)=>{return costoTotal+linea.calcularSubtotal()},0);
-        return total;
+        return this.lineasDeVenta.reduce((costoTotal,linea)=>{return costoTotal+linea.calcularSubtotal()},0);
     }
 
     static fromJSON(data) {
@@ -136,3 +134,9 @@ export function actualizarHTMLCarrito(carrito) {
         cantElemCarritoElement.innerText = '';
 }
 
+export async function importarListadoJSON(archivoJSON) {
+    const response = await fetch(archivoJSON);
+    const listaVideojuegos = await response.json();
+    
+    return listaVideojuegos.map((juego, index) => new Producto(index, juego.nombre, juego.precio, juego.img));
+}

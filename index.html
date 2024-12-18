@@ -21,6 +21,7 @@
                 <a href="#contacto">Contacto</a>
                 <a href="#quienes-somos">Quiénes somos</a>
                 <a href="#ingresar" id="btn-ingresar">Ingresar</a>
+                <a id="boton-bienvenida"></a>
             </div>
         </nav>
     </header>
@@ -70,6 +71,20 @@
             <button id="boton-pagar"> Proceder al pago</button>
             <button id="boton-vaciar-carrito"> Vaciar el carrito</button>
         </div>
+
+        <div id="interfaz-checkout" class="interfaz-form hidden">
+            <form id="form-checkout">
+                <h2>Datos de facturacion</h2>
+                <label for="forma-pago">Seleccione el medio de pago:</label>
+                <select name = "forma-pago">
+                    <option>MercadoPago</option>
+                    <option>Tarjeta de credito/debito</option>
+                </select>
+                <button type="submit">Confirmar pago</button>
+                <button id="cerrar-checkout">Cerrar</button>
+            </form>
+        </div>
+
 
         <!-- Seccion de quien soy -->
         <section id="quienes-somos">
