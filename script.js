@@ -9,7 +9,6 @@ importarListadoJSON('./listadoVideojuegos.json').
         })
     });
 
-
 let carritoGuardado = JSON.parse(sessionStorage.getItem('carrito'));
 
 let carrito;
@@ -20,7 +19,6 @@ if (carritoGuardado) {
 }
 
 let contenedorVideojuegos = document.getElementById('container-videojuegos');
-   //Generar un div por cada videojuego e insertarlo en el contenedor de videojuegos
 
 // Elementos carrito
 const botonMostrarCarrito = document.getElementById('ver-carrito');
@@ -29,17 +27,20 @@ const botonVaciarCarrito = document.getElementById('boton-vaciar-carrito');
 const botonIngresar = document.getElementById('btn-ingresar');
 const botonBienvenida = document.getElementById('boton-bienvenida');
 const interfazCarrito = document.getElementById('carrito');
+
 // Interfaces formularios
 const interfazLogin = document.getElementById('interfaz-login');
 const interfazRegistro = document.getElementById('interfaz-registro');
 const interfazCheckout = document.getElementById('interfaz-checkout');
 const formLogin = document.getElementById('form-login');
 const formRegistro = document.getElementById('form-registro');
+const formCheckout = document.getElementById('form-checkout');
 const cerrarLogin = document.getElementById('cerrar-login');
 const cerrarRegistro = document.getElementById('cerrar-registro');
 const cerrarCheckout = document.getElementById('cerrar-checkout');
 const abrirRegistro = document.getElementById('abrir-registro');
-const barraNavegacion = document.querySelector('.navbar-right');
+
+// Barra de busqueda
 const botonBuscar = document.getElementById('boton-buscar');
 const inputBusqueda = document.getElementById('cuadro-busqueda');
 
@@ -54,8 +55,6 @@ let usuarioActual = sessionStorage.getItem('usuarioActual');
 if(usuarioActual)
     mostrarBienvenidaUsuario(usuarioActual);
 
-
-
 botonVaciarCarrito.addEventListener('click', () => {
     let confirmarLimpieza = confirm("¿Desea vaciar el carrito? (Esta accion no se puede deshacer)");
     if(confirmarLimpieza)
@@ -67,20 +66,16 @@ botonVaciarCarrito.addEventListener('click', () => {
 });
 
 botonPagar.addEventListener('click', ()=> {
-
+    interfazCarrito.classList.add('hidden');
     if(!sessionStorage.getItem('usuarioActual'))
-    {
-        alert('Debes iniciar sesion');
-        return;
-    }
-
-    interfazCheckout.classList.remove('hidden');
+        interfazLogin.classList.remove('hidden');
+    else  
+        interfazCheckout.classList.remove('hidden');
 });
 
 botonMostrarCarrito.addEventListener('click', () => {
     interfazCarrito.classList.toggle('hidden');
 });
-
 
 botonIngresar.addEventListener('click', (event) => {
     event.preventDefault();  
@@ -118,7 +113,7 @@ formLogin.addEventListener('submit',(e)=>{
     if(passIngresada === localStorage.getItem("user:"+usuarioIngresado))
     {
         sessionStorage.setItem("usuarioActual",usuarioIngresado);
-        swal.fire("Inicio de sesion exitoso");
+        swal.fire({title: "Inicio de sesion exitoso",icon: "success"});
         interfazLogin.classList.add('hidden');
         botonIngresar.classList.add('hidden');
         mostrarBienvenidaUsuario(usuarioIngresado);
@@ -152,6 +147,27 @@ formRegistro.addEventListener('submit',(e)=>
     interfazRegistro.classList.add('hidden');
 });
 
+formCheckout.addEventListener('submit',(e)=>
+{
+    e.preventDefault();
+
+    swal.fire({
+        title: "¿Desea confirmar la compra?",
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar"
+    }).then((result)=>{
+        if(result.isConfirmed)
+        {
+            carrito.lineasDeVenta = [];
+            sessionStorage.removeItem('carrito');
+            actualizarHTMLCarrito(carrito);
+            formCheckout.classList.add('hidden');
+            swal.fire({title: '¡Compra confirmada!',icon: "success"});
+        }
+    });    
+});
+
 botonBuscar.addEventListener('click', () => {
     const textoBusqueda = inputBusqueda.value;
     const listaVideojuegos = contenedorVideojuegos.querySelectorAll(".videojuego");
@@ -161,11 +177,12 @@ botonBuscar.addEventListener('click', () => {
         
         // Verificar si el nombre coincide con el texto ingresado
         if (nombreVideojuego.includes(textoBusqueda)) {
-            videojuego.classList.remove("hidden"); // Mostrar el elemento
+            videojuego.classList.remove("hidden"); 
         } else {
-            videojuego.classList.add("hidden"); // Ocultar el elemento
+            videojuego.classList.add("hidden"); 
         }
     });
+
 });
 
 document.addEventListener('DOMContentLoaded', actualizarHTMLCarrito(carrito));
