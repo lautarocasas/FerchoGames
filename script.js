@@ -66,6 +66,17 @@ botonVaciarCarrito.addEventListener('click', () => {
 });
 
 botonPagar.addEventListener('click', ()=> {
+
+    if(carrito.lineasDeVenta.length === 0)
+    {
+        swal.fire({
+            title:"El carrito esta vacio",
+            icon: "error"
+        });
+        return;
+    } 
+    
+    // Al clickear pagar siempre ocultar la interfaz del carrito, luego determinar si debe iniciarse sesion o proceder al pago
     interfazCarrito.classList.add('hidden');
     if(!sessionStorage.getItem('usuarioActual'))
         interfazLogin.classList.remove('hidden');
@@ -118,6 +129,13 @@ formLogin.addEventListener('submit',(e)=>{
         botonIngresar.classList.add('hidden');
         mostrarBienvenidaUsuario(usuarioIngresado);
     }
+    else
+    {
+        swal.fire({
+            title: 'Las credenciales ingresadas son incorrectas',
+            icon: 'error'
+        })
+    }
 });
 
 formRegistro.addEventListener('submit',(e)=>
@@ -130,14 +148,20 @@ formRegistro.addEventListener('submit',(e)=>
 
     if(localStorage.getItem('user:'+usuarioIngresado))
     {
-        swal.fire('Ya existe un usuario con ese nombre');
+        swal.fire({
+            title:'Ya existe un usuario con ese nombre',
+            icon:'error'
+        });
         formRegistro.reset();
         return;
     }
 
     if(passIngresada!==passRepeatIngresada)
     {
-        swal.fire('Las contraseñas no coinciden');
+        swal.fire({
+            title:'Las contraseñas no coinciden',
+            icon:'error'
+        });
         formRegistro.reset();
         return;
     }    
