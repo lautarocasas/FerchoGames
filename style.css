@@ -251,6 +251,13 @@ button:hover {
     flex-direction: column;
 }
 
+.eliminar-carrito
+{
+    width: 80px;
+    height: 28px;
+    padding: 4px;
+}
+
 #quienes-somos{
     font-family: 'Raleway', sans-serif;
     color: white;

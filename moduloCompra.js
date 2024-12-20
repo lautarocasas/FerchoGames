@@ -28,7 +28,7 @@ export class Producto
     {
         let div = document.createElement('div');
         div.className = 'videojuego';
-        div.innerHTML = `<h3>${this.nombre}</h3> <img src = ${this.imgPath} alt = "Imagen de ${this.nombre}"> <h4>$${this.precio}ARS</h4> <button>Agregar al carrito</button> `;
+        div.innerHTML = `<h3>${this.nombre}</h3> <img src = ${this.imgPath} alt = "Imagen de ${this.nombre}"> <h4>$${this.precio}ARS</h4> <button>Agregar al carrito</button>  `;
 
         let botonCompra = div.querySelector('button');
         botonCompra.addEventListener('click',()=>{
@@ -85,6 +85,22 @@ export class Carrito
         actualizarHTMLCarrito(this);
     }
 
+    eliminarProducto(producto,cantidad)
+    {
+        // Verificar si el producto ya está en el carrito
+        let indiceLinea = this.lineasDeVenta.findIndex((elem)=>{return elem.producto.codProd === producto.codProd});
+        
+        if (indiceLinea != -1)
+        {
+            let cantActualizada = this.lineasDeVenta[indiceLinea].cantidad - cantidad;
+            this.lineasDeVenta[indiceLinea].cantidad = cantActualizada;
+            if(cantActualizada==0) //Elimina la linea de venta si la cantidad llega a 0
+                this.lineasDeVenta.splice(indiceLinea,1);
+            sessionStorage.setItem('carrito',JSON.stringify(this));
+            actualizarHTMLCarrito(this);
+        }       
+    }
+
     obtenerCantidadTotal()
     {
         return this.lineasDeVenta.reduce((cantTotal,linea)=>{return cantTotal+linea.cantidad},0);
@@ -120,7 +136,13 @@ export function actualizarHTMLCarrito(carrito) {
 
         let divDatosJuego = document.createElement('div');
         divDatosJuego.className = 'datos-juego-carrito';
-        divDatosJuego.innerHTML = `<h4 class = 'linea-producto'> ${lineaVenta.producto.nombre}</h4><h5 class = 'linea-precio'>$${lineaVenta.producto.precio}</h5><h5 class = 'linea-cantidad'>Cantidad: ${lineaVenta.cantidad}</h5> `;
+        divDatosJuego.innerHTML = `<h4 class = 'linea-producto'> ${lineaVenta.producto.nombre}</h4><h5 class = 'linea-precio'>$${lineaVenta.producto.precio}</h5><h5 class = 'linea-cantidad'>Cantidad: ${lineaVenta.cantidad}</h5> <button class='eliminar-carrito'>Eliminar</button>`;
+        let botonEliminar = divDatosJuego.querySelector('.eliminar-carrito');
+        botonEliminar.addEventListener('click',(e)=>{
+            e.preventDefault();
+            carrito.eliminarProducto(lineaVenta.producto,1);
+            div.remove();
+        })
         div.appendChild(divDatosJuego);
         listaCarrito.appendChild(div);
     });
