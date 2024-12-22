@@ -80,9 +80,12 @@
                     <option>MercadoPago</option>
                     <option>Tarjeta de credito/debito</option>
                 </select>
-
-                <input type="text">
-                <input type="text">
+                <label for="nombre">Nombre Completo:</label>
+                <input type="text" name="nombre" required>
+                <label for="calle">Calle:</label>
+                <input type="text" name="calle" required>
+                <label for="altura">Altura:</label>
+                <input type="text" name="altura" required>
                 <button type="submit">Confirmar pago</button>
                 <button type="button" id="cerrar-checkout">Cerrar</button>
             </form>

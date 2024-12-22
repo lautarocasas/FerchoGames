@@ -186,7 +186,7 @@ formCheckout.addEventListener('submit',(e)=>
             carrito.lineasDeVenta = [];
             sessionStorage.removeItem('carrito');
             actualizarHTMLCarrito(carrito);
-            formCheckout.classList.add('hidden');
+            interfazCheckout.classList.add('hidden');
             swal.fire({title: '¡Compra confirmada!',icon: "success"});
         }
     });    
